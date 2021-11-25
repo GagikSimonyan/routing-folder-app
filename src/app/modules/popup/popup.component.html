@@ -1,0 +1,12 @@
+<div class="popup">
+  <div class="popup__content">
+    <div class="popup__input">
+      <input type="text" placeholder="Enter folder name" [(ngModel)]="folderName" >
+    </div>
+    <div class="popup__btns">
+      <button class="btn--green" type="button" (click)="addFolder()" [class.disabled]="!folderName">Add</button>
+      <button class="btn--red" type="button" (click)="closePopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
