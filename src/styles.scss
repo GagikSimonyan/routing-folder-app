@@ -77,3 +77,26 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+
+.folders {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.folder {
+  margin-right: 30px;
+  margin-bottom: 20px;
+
+  &__img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+

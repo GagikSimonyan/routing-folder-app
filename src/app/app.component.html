@@ -5,12 +5,6 @@
     </ng-template>
   </header>
   <main class="main">
-    <div class="folders" *ngIf="folders">
-      <div class="folder" *ngFor="let folder of folders">
-        <a [routerLink]="['/folder', folder.id]"><img src="assets/img/folder.png" alt="folder" class="folder__img"></a>
-        <p class="folder__text">{{ folder.title }}</p>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </main>
 </div>
-

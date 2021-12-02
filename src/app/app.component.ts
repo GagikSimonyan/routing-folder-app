@@ -1,9 +1,19 @@
-import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Injector,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import { PopupComponent } from "./modules/popup/popup.component";
 import { Folder } from "./models/folder.model";
 import { FolderService } from "./services/folder.service";
-import { first } from "rxjs/operators";
+import { first, switchMap } from "rxjs/operators";
 import { PlaceholderDirective } from "./directives/placeholder.directive";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -15,19 +25,24 @@ export class AppComponent implements OnInit {
   @ViewChild(PlaceholderDirective) popupHost!: PlaceholderDirective;
   hostViewContainerRef!: ViewContainerRef;
   componentRef!: ComponentRef<PopupComponent>;
-  folders: Folder[] = [];
 
   constructor(
     private resolver: ComponentFactoryResolver,
-    private service: FolderService
-  ) {}
+    private folderService: FolderService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private injector: Injector
+  ) {
+  }
 
   ngOnInit(): void {
-    this.getFolders();
+    console.log(this.activatedRoute)
+    console.log(this.router)
   }
 
   showPopup() {
     const popupComponentFactory = this.resolver.resolveComponentFactory(PopupComponent);
+    // popupComponentFactory.create(this.injector)
     this.hostViewContainerRef = this.popupHost.viewContainerRef;
     this.hostViewContainerRef.clear();
     this.componentRef = this.hostViewContainerRef.createComponent(popupComponentFactory);
@@ -39,9 +54,12 @@ export class AppComponent implements OnInit {
       });
 
     this.componentRef.instance.add
-      .pipe(first())
+      .pipe(
+        first(),
+        switchMap(folder => this.folderService.addFolder(folder))
+      )
       .subscribe(folder => {
-        this.folders.push(folder);
+        this.folderService.onAddFolder$.next(folder)
         this.closePopup();
       });
   }
@@ -50,9 +68,4 @@ export class AppComponent implements OnInit {
     this.hostViewContainerRef.clear();
   }
 
-  getFolders() {
-    this.service.getFolders().subscribe(data => {
-      this.folders = data;
-    })
-  }
 }

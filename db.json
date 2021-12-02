@@ -1,8 +1,9 @@
 {
   "folder": [
     {
+      "uuid": "e85a5ef8-ccc8-48d1-8531-3203207cc75f",
       "title": "aaa",
-      "subFolder": [],
+      "img": "assets/img/folder.png",
       "id": 1
     }
   ]

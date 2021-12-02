@@ -1,0 +1,8 @@
+<div class="folders">
+  <div *ngFor="let folder of folders">
+    <div class="folder">
+      <a [routerLink]="['/folder', folder.uuid]"><img [src]="folder.img" alt="folder" class="folder__img"></a>
+      <p class="folder__text">{{ folder.title }}</p>
+    </div>
+  </div>
+</div>

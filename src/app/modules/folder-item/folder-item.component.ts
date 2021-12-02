@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FolderService } from "../../services/folder.service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Params } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { Folder } from "../../models/folder.model";
@@ -14,11 +14,22 @@ export class FolderItemComponent implements OnInit {
   folder$!: Observable<Folder>;
 
   constructor(
-    private service: FolderService,
-    private route: ActivatedRoute
+    private folderService: FolderService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    console.log(this.activatedRoute.snapshot.params)
+
+
+    // this.folder$ = this.route.paramMap.pipe(
+    //   switchMap((params: ParamMap) =>
+    //     this.folderService.getFolder(params.get('id')!))
+    // );
+  }
+
+  getCurrentFolder() {
     // this.folder$ = this.route.paramMap.pipe(
     //   switchMap((params: ParamMap) =>
     //     this.service.getFolder(+params.get('id')!)
